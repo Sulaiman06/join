@@ -15,14 +15,15 @@ if(isset($_GET['keyword'])) {
 }
 // echo $search;
 
-$countperpage = 5;
-$from = ($countperpage * $page) - $countperpage;
+$dataperpage = 5;
+
+$from = ($dataperpage * $page) - $dataperpage;
+
 $countdata = count(q("SELECT users.name FROM student_jurusans INNER JOIN users ON student_jurusans.users_id=users.id WHERE users.name LIKE '$search'"));
-$countpage = ceil($countdata / $countperpage);
 
-$db = q("SELECT student_jurusans.users_id,users.name,student_groups.name AS jurusan FROM student_jurusans INNER JOIN users ON student_jurusans.users_id=users.id INNER JOIN student_groups ON student_jurusans.student_groups_id=student_groups.id WHERE users.name LIKE '$search' ORDER BY users.id LIMIT $from,$countperpage");
+$countpage = ceil($countdata / $dataperpage);
 
-
+$db = q("SELECT student_jurusans.users_id,users.name,student_groups.name AS jurusan FROM student_jurusans INNER JOIN users ON student_jurusans.users_id=users.id INNER JOIN student_groups ON student_jurusans.student_groups_id=student_groups.id WHERE users.name LIKE '$search' ORDER BY users.id LIMIT $from,$dataperpage");
 
 function pre($db) {
     echo "<pre>" . print_r($db,1) . "</pre>";
@@ -40,10 +41,12 @@ function pre($db) {
     <title>Join</title>
 </head>
 <body>
+
     <form action="" method="GET">
         <input type="text" name="keyword">
         <button type="submit">Search</button>
     </form>
+
     <table border=1 cellpadding="10" cellspacing="0">
         <tr>
             <td>No.</td>
@@ -52,44 +55,49 @@ function pre($db) {
             <td>Jurusan</td>
             <td>Action</td>
         </tr>
-        <?php $no = ($page * $countperpage) - ($countperpage - 1); ?>
-        <?php foreach($db as $k => $data) : ?>
-            <?php $name = $data['users_id']; ?>
+
+        <?php
+            $no = ($page * $dataperpage) - ($dataperpage - 1); 
+            foreach($db as $data) : 
+            $id = $data['users_id'];
+        ?>
+
         <tr>
             <td><?= $no++ ?></td>
-            <td><?= $name ?></td>
+            <td><?= $id ?></td>
             <td><?= $data['name']; ?></td>
             <td><?= $data['jurusan']; ?></td>
             <form action="" method="GET">
-                <td><button><a href="?edit=<?= $name ?>">Edit</a></button></td>
+                <input type="hidden" name="id" value="<?= $id ?>">
+            <td><button onclick="edit()">Edit</button></td>
             </form>
         </tr>
         <?php endforeach; ?>
     </table>
-    <form action=""></form>
+
     <?php for($i;$i <= $countpage;$i++) : ?>
         <a href="?page=<?= $i; ?>"><?= $i ?></a>
     <?php endfor; ?>
-    <br><br>
-      <?php function edit() { ?>
+
+    <?php 
+        $users_id = $_GET['id'];
+        $show = q("SELECT student_jurusans.users_id,users.name,student_groups.name AS jurusan FROM student_jurusans INNER JOIN users ON student_jurusans.users_id=users.id INNER JOIN student_groups ON student_jurusans.student_groups_id=student_groups.id WHERE users.id=$users_id"); 
+    ?>
+
+    <div style="display: none;" id="edit">
         <form action="" method="POST">
-            <h1>Edit</h1>
-            <input name="name" type="text" placeholder="Nama">
+            <input type="hidden" name="id" value="<?= $id ?>">
+            <input name="name" type="text" value="<?= $show[0]['name']; ?>">
             <select name="groups">
                 <option value selected disabled>Jurusan</option>
                 <option value="1">Programmer</option>
                 <option value="2">Multimedia</option>
                 <option value="3">Marketing</option>
             </select>
-            <button name="submit">Edit</button>
+            <button name="submit">Save</button>
         </form>
-      <?php }
-        
-      ?>
-    <script>
-        function edit() {
-            prompt('Ubah Nama:');
-        }
-    </script>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 </html>

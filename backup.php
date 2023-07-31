@@ -13,7 +13,6 @@ if(isset($_GET['keyword'])) {
 } else {
     $search = '%%';
 }
-// echo $search;
 
 $dataperpage = 5;
 
@@ -25,8 +24,8 @@ $countpage = ceil($countdata / $dataperpage);
 
 $db = q("SELECT student_jurusans.users_id,users.name,student_groups.name AS jurusan,student_jurusans.student_groups_id FROM student_jurusans INNER JOIN users ON student_jurusans.users_id=users.id INNER JOIN student_groups ON student_jurusans.student_groups_id=student_groups.id WHERE users.name LIKE '$search' ORDER BY users.id LIMIT $from,$dataperpage");
 
-function pre($db) {
-    echo "<pre>" . print_r($db,1) . "</pre>";
+function pre($array) {
+    echo "<pre>" . print_r($array,1) . "</pre>";
 }
 ?>
 <!DOCTYPE html>
@@ -36,23 +35,21 @@ function pre($db) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Join</title>
+    <!-- <script src='script.js'></script> -->
 </head>
 <body>
-
-    <form action="" method="GET">
-        <input type="text" name="keyword">
-        <button type="submit">Search</button>
-    </form>
+    <input type="text" placeholder="Search" id="search">
+    <button onclick="search('search')">Search</button>
 
     <table border=1 cellpadding="10" cellspacing="0">
-        <tr>
+        <thead>
             <td>No.</td>
             <td>User ID</td>
             <td>Nama</td>
             <td>Jurusan</td>
             <td>Action</td>
-        </tr>
-
+        </thead>
+        <tbody id="data">
         <?php
             $no = ($page * $dataperpage) - ($dataperpage - 1); 
             foreach($db as $data) : 
@@ -62,12 +59,23 @@ function pre($db) {
         <tr>
             <td><?= $no++ ?></td>
             <td><?= $id ?></td>
-            <td id="user"><?= $data['name']; ?></td>
-            <td id="jurusan"><?= $data['jurusan']; ?></td>
+            <td><?= $data['name']; ?></td>
+            <td><?= $data['jurusan']; ?></td>
             <td><button onclick="edit('<?= $id ?>','<?= $data['name']; ?>','<?= $data['student_groups_id']; ?>')">Edit</button></td>
         </tr>
         <?php endforeach; ?>
+        </tbody>
     </table>
+
+    <!-- <table border=1 cellpadding="10" cellspacing="0" id="dataViewer">
+        <tr>
+            <td>No.</td>
+            <td>User ID</td>
+            <td>Nama</td>
+            <td>Jurusan</td>
+            <td>Action</td>
+        </tr>
+    </table> -->
 
     <?php for($i;$i <= $countpage;$i++) : ?>
         <a href="?page=<?= $i; ?>"><?= $i ?></a>
@@ -87,8 +95,8 @@ function pre($db) {
         <option value="<?= $value['id'] ?>"><?= $value['name'] ?></option>
       <?php endforeach; ?>
     </select>
-    <button onclick="update()" id="save">Save</button>
-
+    <button onclick="update()">Save</button>
+    
     <script src='script.js'></script>
 </body>
 </html>

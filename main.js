@@ -6,7 +6,6 @@ function edit(user_id,username,jurusan_id) {
 
 function search() {
     var search = document.getElementById('search').value;
-    
 
     fetch('controller.php', {
         method: 'POST',
@@ -17,23 +16,29 @@ function search() {
 }
 
 function searchdata(datasearch) {
-    let no = 1;
     var datatable = document.getElementById('data');
     datatable.innerHTML = "";
-    
-    for(let i = 0; i < datasearch.length; i++) {
-        const tr = document.createElement("tr");
-        for(let y = 0; y < 5; y++) {
-            const td = document.createElement("td");
-            // td.textContent = no++;
-            // td.innerHTML = datasearch[i]["users_id"];
-            td.innerHTML = datasearch[i]["name"];
-            // td.innerHTML = datasearch[i]["jurusan"];
-            // td.appendChild(document.createElement("button"));
-            tr.appendChild(td);
-            datatable.appendChild(tr);
+
+    // for(let i = 1; i <= datasearch.length; i++) {
+    //     let number = datatable.insertRow();
+    //     let number1 = number.insertCell();
+    //     number1.textContent = i;
+    // }
+
+    datasearch.forEach((item) => {
+        let no = 1
+        let tr = datatable.insertRow();
+        let nomor = tr.insertCell();
+        
+        for(let i = 1; i <= datasearch.length; i++) {
+            nomor.textContent = i;
         }
-    }
+
+        for(const key in item) {
+            let cell = tr.insertCell();
+            cell.textContent = item[key];
+        }
+    })
 }
 
 function update() {
@@ -49,4 +54,4 @@ function update() {
 }
 
 
-// !redeem creeper
+// !redeem creeper 

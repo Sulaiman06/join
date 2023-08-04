@@ -39,7 +39,7 @@ function pre($array) {
 </head>
 <body>
     <input type="text" placeholder="Search" id="search">
-    <button onclick="search('search')">Search</button>
+    <button onclick="search()">Search</button>
 
     <table border=1 cellpadding="10" cellspacing="0">
         <thead>
@@ -49,19 +49,19 @@ function pre($array) {
             <td>Jurusan</td>
             <td>Action</td>
         </thead>
-        <tbody id="data">
+        <tbody id="table">
         <?php
             $no = ($page * $dataperpage) - ($dataperpage - 1); 
             foreach($db as $data) : 
             $id = $data['users_id'];
         ?>
 
-        <tr>
+        <tr id="tr_<?= $id ?>">
             <td><?= $no++ ?></td>
             <td><?= $id ?></td>
-            <td><?= $data['name']; ?></td>
-            <td><?= $data['jurusan']; ?></td>
-            <td><button onclick="edit('<?= $id ?>','<?= $data['name']; ?>','<?= $data['student_groups_id']; ?>')">Edit</button></td>
+            <td class="nama"><?= $data['name']; ?></td>
+            <td class="jurusan" id_jurusan="<?= $data['student_groups_id'] ?>"><?= $data['jurusan']; ?></td>
+            <td><button onclick="edit('<?= $id ?>')">Edit</button></td>
         </tr>
         <?php endforeach; ?>
         </tbody>

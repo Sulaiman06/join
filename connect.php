@@ -1,7 +1,7 @@
 <?php
 
 $host = 'localhost';
-$dbnm = 'student_list';
+$dbnm = 'school_management_system';
 $user = 'root';
 $pass = '';
 $conn = new PDO("mysql:host=$host;dbname=$dbnm", $user, $pass);

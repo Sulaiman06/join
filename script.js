@@ -2,7 +2,6 @@ var cari = document.getElementById('search');
 cari.addEventListener('keypress', function() {
     if(cari.value.length > 2) {
         search(cari.value);
-        // console.log(cari.value)
     }
 });
 
@@ -77,8 +76,3 @@ function update() {
         }
     });
 }
-
-
-// !redeem creeper 
-
-// 02:07:24 - 02:07:33

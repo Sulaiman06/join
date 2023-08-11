@@ -1,27 +1,9 @@
 <?php
 require_once 'connect.php';
 
-// $page = $_GET['page'];
-// if(isset($_GET['page'])) {
-//     $_GET['page'];
-// } else {
-//     $page = 1;
-// }
-
-// if(isset($_GET['keyword'])) {
-//     $search = '%' . $_GET['keyword'] . '%';
-// } else {
-//     $search = '%%';
-// }
-
 $dataperpage = 5;
-
-// $from = ($dataperpage * $page) - $dataperpage;
-
 $countdata = count(q("SELECT users.name FROM student_jurusans INNER JOIN users ON student_jurusans.users_id=users.id"));
-
 $countpage = ceil($countdata / $dataperpage);
-
 $db = q("SELECT student_jurusans.users_id,users.name,student_groups.name AS jurusan,student_jurusans.student_groups_id FROM student_jurusans INNER JOIN users ON student_jurusans.users_id=users.id INNER JOIN student_groups ON student_jurusans.student_groups_id=student_groups.id ORDER BY users.name LIMIT 0,5");
 
 function pre($array) {
@@ -35,12 +17,10 @@ function pre($array) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Join</title>
-    <!-- <script src='main.js'></script> -->
 </head>
 <body>
-    <button>Add Student</button>
-    <br><br>
     <input type="text" placeholder="Search" id="search">
+    <br><br>
     <table border=1 cellpadding="10" cellspacing="0">
         <thead>
             <td>No.</td>

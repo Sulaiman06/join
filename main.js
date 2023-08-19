@@ -1,6 +1,8 @@
 var cari = document.getElementById('search');
-cari.addEventListener('keypress', function() {
-    if(cari.value.length > 2) {
+cari.addEventListener('keyup', function() {
+    if(cari.value.length > 1) {
+        search(cari.value);
+    } else if(cari.value.length == 0) {
         search(cari.value);
     }
 });
@@ -25,10 +27,10 @@ function page(page,dataperpage) {
                 let click = 'onclick="edit(\'' + item.users_id + '\')"';
                 let idtr = 'id="tr_' + item.users_id + '"';
                 let id_jurusan = 'id_jurusan="' + item.student_groups_id + '"';
-        
+
                 html = "<tr " + idtr + "><td>" + (no++) + "</td><td>" + item.users_id + "</td><td class=\"nama\">" + item.name + "</td><td class=\"jurusan\" " + id_jurusan + ">" + item.jurusan + "</td><td><button " + click + ">Edit</button></td></tr>"
                 tr = tr + html;
-        
+
                 datatable.innerHTML = tr;
         })
     });

@@ -17,35 +17,43 @@ function pre($array) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Join</title>
+    <link href="assets/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/dataTables/dataTables.bootstrap.css" rel="stylesheet">
+    <link href="assets/dataTables/dataTables.responsive.css" rel="stylesheet">
+    <link href="assets/startmin.css" rel="stylesheet">
 </head>
 <body>
-    <input type="text" placeholder="Search" id="search">
-    <br><br>
-    <table border=1 cellpadding="10" cellspacing="0">
-        <thead>
-            <td>No.</td>
-            <td>User ID</td>
-            <td>Nama</td>
-            <td>Jurusan</td>
-            <td>Action</td>
-        </thead>
-        <tbody id="table">
-        <?php
-            $no = (1 * $dataperpage) - ($dataperpage - 1);
-            foreach($db as $data) : 
-            $id = $data['users_id'];
-        ?>
+    <div class="panel-body">
+        <div class="table-responsive">
+            <input type="text" placeholder="Search" id="search">
+            <br><br>
+            <table class="table table-striped table-bordered table-hover">
+                <thead>
+                    <td>No.</td>
+                    <td>User ID</td>
+                    <td>Nama</td>
+                    <td>Jurusan</td>
+                    <td>Action</td>
+                </thead>
+                <tbody id="table">
+                <?php
+                    $no = (1 * $dataperpage) - ($dataperpage - 1);
+                    foreach($db as $data) : 
+                    $id = $data['users_id'];
+                ?>
 
-        <tr id="tr_<?= $id ?>">
-            <td><?= $no++ ?></td>
-            <td><?= $id ?></td>
-            <td class="nama"><?= $data['name']; ?></td>
-            <td class="jurusan" id_jurusan="<?= $data['student_groups_id'] ?>"><?= $data['jurusan']; ?></td>
-            <td><button onclick="edit('<?= $id ?>')">Edit</button></td>
-        </tr>
-        <?php endforeach; ?>
-        </tbody>
-    </table>
+                <tr id="tr_<?= $id ?>">
+                    <td><?= $no++ ?></td>
+                    <td><?= $id ?></td>
+                    <td class="nama"><?= $data['name']; ?></td>
+                    <td class="jurusan" id_jurusan="<?= $data['student_groups_id'] ?>"><?= $data['jurusan']; ?></td>
+                    <td><button onclick="edit('<?= $id ?>')">Edit</button></td>
+                </tr>
+                <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
 
     <?php for($i = 1;$i <= $countpage;$i++) : ?>
         <button onclick="page('<?= $i; ?>','<?= $dataperpage; ?>')"><?= $i ?></button>
@@ -67,6 +75,16 @@ function pre($array) {
     </select>
     <button onclick="update()">Save</button>
     
-    <script src='script.js'></script>
+    <script src='main.js'></script>
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/dataTables/jquery.dataTables.min.js"></script>
+    <script src="assets/js/dataTables/dataTables.bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#dataTables-example').DataTable({
+                responsive: true
+            });
+        });
+    </script>
 </body>
 </html>

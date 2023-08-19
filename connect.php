@@ -7,7 +7,7 @@ $pass = '';
 $conn = new PDO("mysql:host=$host;dbname=$dbnm", $user, $pass);
 
 function q($query) {
-    global $conn; 
+    global $conn;
     $store = $conn->prepare($query);
     $store->execute();
     $data = $store->fetchAll(PDO::FETCH_ASSOC);
